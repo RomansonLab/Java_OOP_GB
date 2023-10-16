@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Market implements MarketBehaviour, QueueBehavior {
@@ -59,13 +60,14 @@ public class Market implements MarketBehaviour, QueueBehavior {
 
     @Override
     public void releaseFromQueue() {
-        List<Actor> actorList = new ArrayList<>();
-        for (Actor actor : queue){
-            if(actor.isTakeOrder()){
-                actorList.add(actor);
+        Iterator<Actor> iterator = queue.iterator();
+        while (iterator.hasNext()) {
+            Actor actor = iterator.next();
+            if (actor.isTakeOrder()) {
                 System.out.println(actor.getName() + " вышел из очереди");
+                iterator.remove();
+                System.out.println(actor.getName() + " вышел из магазина");
             }
         }
-        reeaseFromMarket(actorList);
     }
 }
